@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+
+# Org-wide CodeRabbit configuration for the credinvest organization.
+#
+# Per https://docs.coderabbit.ai/configuration/central-configuration this
+# file applies to every credinvest/* repository that does not have its
+# own .coderabbit.yaml override. Repo-local files take CodeRabbit
+# priority 1; this central file is priority 2.
+#
+# Tickets:
+#   - COM-39674 (parent): https://linear.app/credplatform/issue/COM-39674
+#   - COM-39675 (this):   https://linear.app/credplatform/issue/COM-39675
+#
+# Policy summary:
+#   - drafts: false
+#       Do not review draft PRs. Drafts are by definition not ready for
+#       review (workspace rule 2026-05-13: "Fan-out implementation PRs
+#       open in draft + must declare cross-PR dependencies"). The internal
+#       cred-* reviewer fleet (cred-architecture-review.yml,
+#       cred-qa-review.yml, cred-test-agent.yml, cred-config-agent.yml --
+#       all org-injected via ruleset 15444553) already gates on
+#       github.event.pull_request.draft == false; this matches.
+#   - ignore_usernames: []
+#       Do not exclude any author. In particular, cred-author-agent[bot]
+#       PRs ARE reviewed by CodeRabbit once they flip from draft to
+#       ready-for-review. The internal cred-* reviewer fleet excludes
+#       bot authors by design (cf. cred-architecture-review.yml line 212,
+#       cred-qa-review.yml line 261) because cred-author-agent[bot],
+#       cred-merge-agent[bot], cred-architecture-agent[bot] coordinate
+#       with each other through the merge-agent loop. CodeRabbit is the
+#       third-party external eye that catches diffs the internal fleet
+#       skips by design -- e.g. the 2026-05-12 cred-web-commercial#18695
+#       silent ~5000-line deletion in a small-scope conflict resolution
+#       that no internal reviewer flagged.
+
+language: en
+
+reviews:
+  auto_review:
+    enabled: true
+    drafts: false
+    ignore_usernames: []
